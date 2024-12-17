@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendrier des Bornes - Reserved'In</title>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.css" rel="stylesheet">
+  <style>
+    /* Design inspiré de monday.com */
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f5f7;
+      color: #333;
+    }
+
+    /* En-tête */
+    header {
+      background-color: #004080;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      font-size: 24px;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    nav a {
+      margin: 0 20px;
+      padding: 10px 0;
+      text-decoration: none;
+      color: #004080;
+      font-weight: bold;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.3s ease;
+    }
+
+    nav a:hover {
+      border-color: #004080;
+    }
+
+    /* Conteneur principal */
+    #main-container {
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    #calendar {
+      max-width: 1000px;
+      width: 100%;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Boutons */
+    button {
+      background-color: #004080;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #003366;
+    }
+  </style>
+</head>
+<body>
+  <!-- En-tête -->
+  <header>
+    Calendrier des Bornes de Recharge
+  </header>
+
+  <!-- Barre de navigation -->
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="reservation.html">Réservation</a>
+    <a href="calendrier_bornes.html">Calendrier des Bornes</a>
+  </nav>
+
+  <!-- Conteneur principal -->
+  <div id="main-container">
+    <div id="calendar"></div>
+  </div>
+
+  <!-- FullCalendar Script -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var calendarEl = document.getElementById('calendar');
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'timeGridWeek',
+        locale: 'fr',
+        slotMinTime: '07:00:00',
+        slotMaxTime: '20:00:00',
+        businessHours: {
+          daysOfWeek: [1, 2, 3, 4, 5],
+          startTime: '07:00',
+          endTime: '20:00',
+        },
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'timeGridWeek,timeGridDay',
+        },
+        events: [
+          { title: 'Borne 1 - Occupée', start: '2024-12-18T08:00:00', end: '2024-12-18T10:00:00', color: '#00aaff' },
+          { title: 'Borne 2 - Libre', start: '2024-12-18T11:00:00', end: '2024-12-18T12:00:00', color: '#22cc88' },
+          { title: 'Borne 3 - Occupée', start: '2024-12-18T14:00:00', end: '2024-12-18T15:30:00', color: '#ffa500' }
+        ],
+        selectable: true,
+        select: function (info) {
+          const title = prompt("Réservation pour quelle borne ? (Borne 1, 2, ou 3)");
+          if (title) {
+            calendar.addEvent({
+              title: title,
+              start: info.startStr,
+              end: info.endStr,
+              color: '#ff4444',
+            });
+            alert('Réservation ajoutée !');
+          }
+          calendar.unselect();
+        },
+      });
+      calendar.render();
+    });
+  </script>
+</body>
+</html>
