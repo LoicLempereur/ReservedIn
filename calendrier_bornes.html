@@ -13,6 +13,7 @@
       background-color: #f4f5f7;
       color: #333;
     }
+
     header {
       background-color: #004080;
       color: white;
@@ -21,6 +22,7 @@
       font-size: 28px;
       font-weight: bold;
     }
+
     nav {
       display: flex;
       justify-content: center;
@@ -28,6 +30,7 @@
       padding: 10px 0;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
+
     nav a {
       margin: 0 15px;
       padding: 10px 15px;
@@ -35,6 +38,7 @@
       color: #004080;
       font-weight: bold;
     }
+
     #calendar {
       max-width: 1000px;
       margin: 20px auto;
@@ -48,7 +52,7 @@
 <body>
   <!-- En-tête -->
   <header>
-    Calendrier des Bornes - Ligne du Temps
+    Calendrier des Bornes de Recharge - Vue Ligne du Temps
   </header>
 
   <!-- Navigation -->
@@ -68,20 +72,17 @@
       var calendarEl = document.getElementById('calendar');
 
       var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'resourceTimelineWeek', // Vue timeline pour les ressources
-        locale: 'fr',
-        now: '2024-12-18',
+        initialView: 'resourceTimelineDay', // Vue Ligne du Temps par jour
         slotMinTime: '07:00:00',
         slotMaxTime: '20:00:00',
-        editable: true,
-        selectable: true,
+        locale: 'fr',
         resourceAreaHeaderContent: 'Bornes',
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
-          right: 'resourceTimelineDay,resourceTimelineWeek',
+          right: 'resourceTimelineDay,resourceTimelineWeek'
         },
-        resources: [ // Les bornes de recharge
+        resources: [ // Prises fixes verticales
           { id: '1A', title: 'Prise 1A' },
           { id: '1B', title: 'Prise 1B' },
           { id: '2A', title: 'Prise 2A' },
@@ -89,19 +90,24 @@
           { id: '3A', title: 'Prise 3A' },
           { id: '3B', title: 'Prise 3B' }
         ],
-        events: [ // Réservations existantes
-          { id: '1', resourceId: '1A', start: '2024-12-18T08:00:00', end: '2024-12-18T10:00:00', title: 'Jean Dupont' },
-          { id: '2', resourceId: '1B', start: '2024-12-18T11:00:00', end: '2024-12-18T12:00:00', title: 'Marie Curie' },
-          { id: '3', resourceId: '2A', start: '2024-12-18T13:00:00', end: '2024-12-18T14:30:00', title: 'Paul Durand' },
+        events: [ // Exemples de réservations
+          { id: '1', resourceId: '1A', start: '2024-12-18T08:00:00', end: '2024-12-18T10:00:00', title: 'Jean Dupont', color: '#007bff' },
+          { id: '2', resourceId: '1B', start: '2024-12-18T11:00:00', end: '2024-12-18T12:00:00', title: 'Marie Curie', color: '#28a745' },
+          { id: '3', resourceId: '2A', start: '2024-12-18T13:00:00', end: '2024-12-18T14:30:00', title: 'Paul Durand', color: '#ffc107' },
+          { id: '4', resourceId: '2B', start: '2024-12-18T15:00:00', end: '2024-12-18T16:00:00', title: 'Sophie Martin', color: '#17a2b8' },
+          { id: '5', resourceId: '3A', start: '2024-12-18T17:00:00', end: '2024-12-18T18:00:00', title: 'Léo Bernard', color: '#dc3545' },
+          { id: '6', resourceId: '3B', start: '2024-12-18T18:30:00', end: '2024-12-18T19:30:00', title: 'Emma Laval', color: '#6f42c1' }
         ],
-        select: function (info) { // Ajout d'une nouvelle réservation
+        selectable: true,
+        select: function (info) { // Ajouter une nouvelle réservation
           const employeeName = prompt("Entrez le nom de l'employé pour cette réservation :");
           if (employeeName) {
             calendar.addEvent({
               title: employeeName,
               start: info.startStr,
               end: info.endStr,
-              resourceId: info.resource.id
+              resourceId: info.resource.id,
+              color: '#343a40'
             });
             alert('Réservation ajoutée pour ' + employeeName + ' sur ' + info.resource.title);
           }
