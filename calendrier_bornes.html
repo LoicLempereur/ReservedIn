@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calendrier des Bornes - Reserved'In</title>
+  <title>Calendrier des Bornes - Ligne du Temps</title>
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.css" rel="stylesheet">
   <style>
-    /* Design Corporate Moderne */
     body {
       font-family: 'Arial', sans-serif;
       margin: 0;
@@ -14,8 +13,6 @@
       background-color: #f4f5f7;
       color: #333;
     }
-
-    /* En-tête */
     header {
       background-color: #004080;
       color: white;
@@ -23,9 +20,7 @@
       text-align: center;
       font-size: 28px;
       font-weight: bold;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-
     nav {
       display: flex;
       justify-content: center;
@@ -33,147 +28,87 @@
       padding: 10px 0;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
-
     nav a {
       margin: 0 15px;
       padding: 10px 15px;
       text-decoration: none;
       color: #004080;
       font-weight: bold;
-      border-bottom: 2px solid transparent;
-      transition: border-color 0.3s ease;
     }
-
-    nav a:hover {
-      border-color: #004080;
-    }
-
-    /* Conteneur principal */
-    #main-container {
-      display: flex;
-      justify-content: center;
-      padding: 20px;
-    }
-
     #calendar {
       max-width: 1000px;
-      width: 100%;
-      background-color: #ffffff;
-      padding: 20px;
+      margin: 20px auto;
+      background-color: white;
+      padding: 10px;
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Calendrier */
-    .fc-toolbar-title {
-      font-size: 1.5em;
-      color: #004080;
-      font-weight: bold;
-    }
-
-    .fc-button {
-      background-color: #004080;
-      border: none;
-      color: white;
-      transition: background-color 0.3s ease;
-    }
-
-    .fc-button:hover {
-      background-color: #003366;
-    }
-
-    .fc-daygrid-day-number {
-      color: #333;
-      font-weight: bold;
-    }
-
-    .fc-event {
-      border: none;
-      border-radius: 4px;
-      padding: 4px;
-      font-size: 0.9em;
-      text-align: center;
-    }
-
-    /* Style des boutons */
-    button {
-      background-color: #004080;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 4px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    button:hover {
-      background-color: #003366;
     }
   </style>
 </head>
 <body>
   <!-- En-tête -->
   <header>
-    Calendrier des Bornes de Recharge
+    Calendrier des Bornes - Ligne du Temps
   </header>
 
-  <!-- Barre de navigation -->
+  <!-- Navigation -->
   <nav>
     <a href="index.html">Accueil</a>
     <a href="reservation.html">Réservation</a>
     <a href="calendrier_bornes.html">Calendrier des Bornes</a>
   </nav>
 
-  <!-- Conteneur principal -->
-  <div id="main-container">
-    <div id="calendar"></div>
-  </div>
+  <!-- Conteneur du calendrier -->
+  <div id="calendar"></div>
 
-  <!-- FullCalendar Script -->
+  <!-- FullCalendar Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var calendarEl = document.getElementById('calendar');
+
       var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'timeGridWeek',
+        initialView: 'resourceTimelineWeek', // Vue timeline pour les ressources
         locale: 'fr',
+        now: '2024-12-18',
         slotMinTime: '07:00:00',
         slotMaxTime: '20:00:00',
-        businessHours: {
-          daysOfWeek: [1, 2, 3, 4, 5],
-          startTime: '07:00',
-          endTime: '20:00',
-        },
+        editable: true,
+        selectable: true,
+        resourceAreaHeaderContent: 'Bornes',
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
-          right: 'timeGridWeek,timeGridDay',
+          right: 'resourceTimelineDay,resourceTimelineWeek',
         },
-        events: [
-          { title: 'Prise 1A', start: '2024-12-18T08:00:00', end: '2024-12-18T10:00:00', color: '#007bff' },
-          { title: 'Prise 1B', start: '2024-12-18T11:00:00', end: '2024-12-18T12:00:00', color: '#28a745' },
-          { title: 'Prise 2A', start: '2024-12-18T13:00:00', end: '2024-12-18T14:30:00', color: '#ffc107' },
-          { title: 'Prise 2B', start: '2024-12-18T15:00:00', end: '2024-12-18T16:30:00', color: '#17a2b8' },
-          { title: 'Prise 3A', start: '2024-12-18T17:00:00', end: '2024-12-18T18:00:00', color: '#dc3545' },
-          { title: 'Prise 3B', start: '2024-12-18T18:30:00', end: '2024-12-18T20:00:00', color: '#6f42c1' }
+        resources: [ // Les bornes de recharge
+          { id: '1A', title: 'Prise 1A' },
+          { id: '1B', title: 'Prise 1B' },
+          { id: '2A', title: 'Prise 2A' },
+          { id: '2B', title: 'Prise 2B' },
+          { id: '3A', title: 'Prise 3A' },
+          { id: '3B', title: 'Prise 3B' }
         ],
-        selectable: true,
-        select: function (info) {
-          const title = prompt("Réservation pour quelle prise ? (Prise 1A, 1B, 2A, 2B, 3A, ou 3B)");
-          if (title) {
+        events: [ // Réservations existantes
+          { id: '1', resourceId: '1A', start: '2024-12-18T08:00:00', end: '2024-12-18T10:00:00', title: 'Jean Dupont' },
+          { id: '2', resourceId: '1B', start: '2024-12-18T11:00:00', end: '2024-12-18T12:00:00', title: 'Marie Curie' },
+          { id: '3', resourceId: '2A', start: '2024-12-18T13:00:00', end: '2024-12-18T14:30:00', title: 'Paul Durand' },
+        ],
+        select: function (info) { // Ajout d'une nouvelle réservation
+          const employeeName = prompt("Entrez le nom de l'employé pour cette réservation :");
+          if (employeeName) {
             calendar.addEvent({
-              title: title,
+              title: employeeName,
               start: info.startStr,
               end: info.endStr,
-              color: '#343a40',
+              resourceId: info.resource.id
             });
-            alert('Réservation ajoutée pour ' + title + ' !');
+            alert('Réservation ajoutée pour ' + employeeName + ' sur ' + info.resource.title);
           }
           calendar.unselect();
-        },
+        }
       });
+
       calendar.render();
     });
   </script>
