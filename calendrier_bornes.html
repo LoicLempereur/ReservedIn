@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calendrier des Bornes - Ligne du Temps</title>
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.css" rel="stylesheet">
+  <title>Calendrier des Salles de Réunion</title>
+  <!-- FullCalendar Scheduler CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.4/index.global.min.css" rel="stylesheet">
   <style>
     body {
       font-family: 'Arial', sans-serif;
@@ -13,103 +14,68 @@
       background-color: #f4f5f7;
       color: #333;
     }
-
     header {
       background-color: #004080;
       color: white;
       padding: 20px;
       text-align: center;
       font-size: 28px;
-      font-weight: bold;
     }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      background-color: #ffffff;
-      padding: 10px 0;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
-
-    nav a {
-      margin: 0 15px;
-      padding: 10px 15px;
-      text-decoration: none;
-      color: #004080;
-      font-weight: bold;
-    }
-
     #calendar {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 20px auto;
-      background-color: white;
-      padding: 10px;
+      background-color: #fff;
+      padding: 15px;
       border-radius: 8px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
   </style>
 </head>
 <body>
-  <!-- En-tête -->
-  <header>
-    Calendrier des Bornes de Recharge - Vue Ligne du Temps
-  </header>
-
-  <!-- Navigation -->
-  <nav>
-    <a href="index.html">Accueil</a>
-    <a href="reservation.html">Réservation</a>
-    <a href="calendrier_bornes.html">Calendrier des Bornes</a>
-  </nav>
+  <header>Calendrier des Salles de Réunion</header>
 
   <!-- Conteneur du calendrier -->
   <div id="calendar"></div>
 
-  <!-- FullCalendar Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js"></script>
+  <!-- FullCalendar Scheduler -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.4/index.global.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       var calendarEl = document.getElementById('calendar');
 
       var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: 'resourceTimelineDay', // Vue Ligne du Temps par jour
-        slotMinTime: '07:00:00',
-        slotMaxTime: '20:00:00',
+        initialView: 'resourceTimelineDay', // Vue Ligne du Temps pour une journée
+        slotMinTime: '08:00:00', // Début de journée
+        slotMaxTime: '18:00:00', // Fin de journée
         locale: 'fr',
-        resourceAreaHeaderContent: 'Bornes',
         headerToolbar: {
           left: 'prev,next today',
           center: 'title',
           right: 'resourceTimelineDay,resourceTimelineWeek'
         },
-        resources: [ // Prises fixes verticales
-          { id: '1A', title: 'Prise 1A' },
-          { id: '1B', title: 'Prise 1B' },
-          { id: '2A', title: 'Prise 2A' },
-          { id: '2B', title: 'Prise 2B' },
-          { id: '3A', title: 'Prise 3A' },
-          { id: '3B', title: 'Prise 3B' }
+        resourceAreaHeaderContent: 'Salles',
+        resources: [ // Les trois salles fixes verticalement
+          { id: 'salle1', title: 'Salle A' },
+          { id: 'salle2', title: 'Salle B' },
+          { id: 'salle3', title: 'Salle C' }
         ],
-        events: [ // Exemples de réservations
-          { id: '1', resourceId: '1A', start: '2024-12-18T08:00:00', end: '2024-12-18T10:00:00', title: 'Jean Dupont', color: '#007bff' },
-          { id: '2', resourceId: '1B', start: '2024-12-18T11:00:00', end: '2024-12-18T12:00:00', title: 'Marie Curie', color: '#28a745' },
-          { id: '3', resourceId: '2A', start: '2024-12-18T13:00:00', end: '2024-12-18T14:30:00', title: 'Paul Durand', color: '#ffc107' },
-          { id: '4', resourceId: '2B', start: '2024-12-18T15:00:00', end: '2024-12-18T16:00:00', title: 'Sophie Martin', color: '#17a2b8' },
-          { id: '5', resourceId: '3A', start: '2024-12-18T17:00:00', end: '2024-12-18T18:00:00', title: 'Léo Bernard', color: '#dc3545' },
-          { id: '6', resourceId: '3B', start: '2024-12-18T18:30:00', end: '2024-12-18T19:30:00', title: 'Emma Laval', color: '#6f42c1' }
+        events: [ // Réservations existantes
+          { id: '1', resourceId: 'salle1', start: '2024-12-18T08:00:00', end: '2024-12-18T09:30:00', title: 'Réunion Marketing', color: '#007bff' },
+          { id: '2', resourceId: 'salle2', start: '2024-12-18T10:00:00', end: '2024-12-18T11:30:00', title: 'Briefing Projet', color: '#28a745' },
+          { id: '3', resourceId: 'salle3', start: '2024-12-18T13:00:00', end: '2024-12-18T14:00:00', title: 'Entretien RH', color: '#ffc107' }
         ],
-        selectable: true,
-        select: function (info) { // Ajouter une nouvelle réservation
-          const employeeName = prompt("Entrez le nom de l'employé pour cette réservation :");
+        selectable: true, // Permet de sélectionner des créneaux
+        select: function (info) {
+          const employeeName = prompt("Entrez votre nom pour réserver la salle :");
           if (employeeName) {
             calendar.addEvent({
-              title: employeeName,
+              title: `Réservé par ${employeeName}`,
               start: info.startStr,
               end: info.endStr,
               resourceId: info.resource.id,
-              color: '#343a40'
+              color: '#6f42c1'
             });
-            alert('Réservation ajoutée pour ' + employeeName + ' sur ' + info.resource.title);
+            alert('Réservation confirmée pour ' + employeeName + ' dans ' + info.resource.title);
           }
           calendar.unselect();
         }
