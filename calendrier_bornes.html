@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calendrier des Salles de Réunion</title>
+  <title>Calendrier des Prises de Recharge</title>
   <!-- FullCalendar Scheduler CSS -->
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.4/index.global.min.css" rel="stylesheet">
   <style>
@@ -32,7 +32,7 @@
   </style>
 </head>
 <body>
-  <header>Calendrier des Salles de Réunion</header>
+  <header>Calendrier des Prises de Recharge</header>
 
   <!-- Conteneur du calendrier -->
   <div id="calendar"></div>
@@ -53,29 +53,35 @@
           center: 'title',
           right: 'resourceTimelineDay,resourceTimelineWeek'
         },
-        resourceAreaHeaderContent: 'Salles',
-        resources: [ // Les trois salles fixes verticalement
-          { id: 'salle1', title: 'Salle A' },
-          { id: 'salle2', title: 'Salle B' },
-          { id: 'salle3', title: 'Salle C' }
+        resourceAreaHeaderContent: 'Prises',
+        resources: [ // Liste des prises fixes verticalement
+          { id: 'prise1A', title: 'Prise 1A' },
+          { id: 'prise1B', title: 'Prise 1B' },
+          { id: 'prise2A', title: 'Prise 2A' },
+          { id: 'prise2B', title: 'Prise 2B' },
+          { id: 'prise3A', title: 'Prise 3A' },
+          { id: 'prise3B', title: 'Prise 3B' }
         ],
         events: [ // Réservations existantes
-          { id: '1', resourceId: 'salle1', start: '2024-12-18T08:00:00', end: '2024-12-18T09:30:00', title: 'Réunion Marketing', color: '#007bff' },
-          { id: '2', resourceId: 'salle2', start: '2024-12-18T10:00:00', end: '2024-12-18T11:30:00', title: 'Briefing Projet', color: '#28a745' },
-          { id: '3', resourceId: 'salle3', start: '2024-12-18T13:00:00', end: '2024-12-18T14:00:00', title: 'Entretien RH', color: '#ffc107' }
+          { id: '1', resourceId: 'prise1A', start: '2024-12-18T08:00:00', end: '2024-12-18T09:30:00', title: 'Jean Dupont', color: '#007bff' },
+          { id: '2', resourceId: 'prise1B', start: '2024-12-18T10:00:00', end: '2024-12-18T11:30:00', title: 'Marie Curie', color: '#28a745' },
+          { id: '3', resourceId: 'prise2A', start: '2024-12-18T13:00:00', end: '2024-12-18T14:00:00', title: 'Paul Durand', color: '#ffc107' },
+          { id: '4', resourceId: 'prise2B', start: '2024-12-18T14:30:00', end: '2024-12-18T15:30:00', title: 'Sophie Martin', color: '#17a2b8' },
+          { id: '5', resourceId: 'prise3A', start: '2024-12-18T15:45:00', end: '2024-12-18T17:00:00', title: 'Léo Bernard', color: '#dc3545' },
+          { id: '6', resourceId: 'prise3B', start: '2024-12-18T17:30:00', end: '2024-12-18T18:30:00', title: 'Emma Laval', color: '#6f42c1' }
         ],
         selectable: true, // Permet de sélectionner des créneaux
         select: function (info) {
-          const employeeName = prompt("Entrez votre nom pour réserver la salle :");
+          const employeeName = prompt("Entrez votre nom pour réserver la prise :");
           if (employeeName) {
             calendar.addEvent({
               title: `Réservé par ${employeeName}`,
               start: info.startStr,
               end: info.endStr,
               resourceId: info.resource.id,
-              color: '#6f42c1'
+              color: '#6c757d'
             });
-            alert('Réservation confirmée pour ' + employeeName + ' dans ' + info.resource.title);
+            alert('Réservation confirmée pour ' + employeeName + ' sur ' + info.resource.title);
           }
           calendar.unselect();
         }
